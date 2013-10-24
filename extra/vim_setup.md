@@ -51,8 +51,9 @@ Using vim, editing ~/.vimrc and add the following lines:
 execute pathogen#infect()
 
 " Enable syntax highlighting
-set background=dark                                                                                     
+set background=dark
 colorscheme molokai
+let g:airline_theme = "powerlineish"
 syntax on
 
 " Other

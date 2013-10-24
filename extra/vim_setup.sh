@@ -25,7 +25,8 @@ read -d '' vimconf <<-"_EOF_"
 execute pathogen#infect()
 
 " Enable syntax highlighting
-set background=dark                                                                                     
+set background=dark
+let g:airline_theme = "powerlineish"
 colorscheme molokai
 syntax on
 
