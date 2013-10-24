@@ -3,6 +3,10 @@ A Simple Vim Setup
 Below are some basic steps you can take to improve the appearance and
 functionality of Vim.
 
+Once finished, your Vim terminal should look something like this:
+
+![vim screenshot](https://raw.github.com/khughitt/688p-python/master/extra/vim_screenshot.png)
+
 First, install the [Pathogen](https://github.com/tpope/vim-pathogen) plugin 
 manager for Vim. There are numerous plugins available for Vim to extend its
 basic functionality. Pathogen helps to make the process of adding and removing
@@ -63,4 +67,6 @@ run the following command:
 ```
 echo 'alias vim=/usr/bin/vim' >> .bashrc.mine
 ```
+
 Done!
+
