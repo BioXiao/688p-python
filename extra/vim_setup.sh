@@ -34,8 +34,8 @@ set cursorline
 set number
 _EOF_
 
-echo $vimconf >> ~/.vimrc
+echo "$vimconf" >> ~/.vimrc
 
 echo "Updating .bashrc.mine"
-echo 'alias vim=/usr/bin/vim' >> .bashrc.mine
+echo 'alias vim=/usr/bin/vim' >> ~/.bashrc.mine
 
