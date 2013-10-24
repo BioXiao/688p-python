@@ -65,7 +65,8 @@ use /usr/bin/vim (Vim 7.2) instead of /usr/local/bin/vim (Vim 7.0). To do this,
 run the following command:
 
 ```
-echo 'alias vim=/usr/bin/vim' >> .bashrc.mine
+echo 'alias vim=/usr/bin/vim' >> ~/.bashrc.mine
+source ~/.bashrc.mine
 ```
 
 Done! For more information about some of the plugins and themes available for

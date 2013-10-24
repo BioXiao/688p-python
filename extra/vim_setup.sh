@@ -38,4 +38,4 @@ echo "$vimconf" >> ~/.vimrc
 
 echo "Updating .bashrc.mine"
 echo 'alias vim=/usr/bin/vim' >> ~/.bashrc.mine
-
+alias vim=/usr/bin/vim
