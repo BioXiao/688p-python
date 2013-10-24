@@ -68,5 +68,10 @@ run the following command:
 echo 'alias vim=/usr/bin/vim' >> .bashrc.mine
 ```
 
-Done!
+Done! For more information about some of the plugins and themes available for
+Vim, check out:
+
+1. http://www.vimninjas.com/2012/08/26/10-vim-color-schemes-you-need-to-own/
+2. http://www.bestofvim.com/plugin/
+3. http://net.tutsplus.com/articles/web-roundups/25-vim-tutorials-screencasts-and-resources/
 
