@@ -7,6 +7,17 @@ Once finished, your Vim terminal should look something like this:
 
 ![vim screenshot](https://raw.github.com/khughitt/688p-python/master/extra/vim_screenshot.png)
 
+TLDR
+----
+
+The short version:
+```
+wget https://raw.github.com/khughitt/688p-python/master/extra/vim_setup.sh && sh vim_setup.sh
+```
+
+Manual installation
+-------------------
+
 First, install the [Pathogen](https://github.com/tpope/vim-pathogen) plugin 
 manager for Vim. There are numerous plugins available for Vim to extend its
 basic functionality. Pathogen helps to make the process of adding and removing
