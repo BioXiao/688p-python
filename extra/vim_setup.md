@@ -15,6 +15,17 @@ The short version:
 wget https://raw.github.com/khughitt/688p-python/master/extra/vim_setup.sh && sh vim_setup.sh
 ```
 
+Note for Windows Users
+----------------------
+If you are using Windows and want to set up Vim *locally* with this 
+configuration, you will need to first download and install [Git](https://code.google.com/p/msysgit/downloads/list?q=full+installer+official+git)
+(the default options should be fine).
+
+Now, launch Git Bash and run:
+```
+curl https://raw.github.com/khughitt/688p-python/master/extra/vim_setup_win.sh > vim_setup_win.sh && sh vim_setup_win.sh
+```
+
 Manual installation
 -------------------
 
