@@ -24,16 +24,47 @@ References
   post-transcriptional regulatory programs in trypanosomatids. 
   Nucleic acids research, 1–10. doi:10.1093/nar/gkt647
 """
-import csv
-import re
 import os
+import re
+import sys
+import csv
 import StringIO
 import urllib2
 from Bio import SeqIO
+from Bio import SeqUtils
 from Bio.Alphabet import IUPAC
 
+def main():
+    """Main application body"""
+    # Genome sequence and annotations
+    genome = load_file('http://tritrypdb.org/common/downloads/release-6.0/TcruziCLBrenerEsmeraldo-like/fasta/data/TriTrypDB-6.0_TcruziCLBrenerEsmeraldo-like_Genome.fasta')
+    annotations = load_file('http://tritrypdb.org/common/downloads/release-6.0/TcruziCLBrenerEsmeraldo-like/gff/data/TriTrypDB-6.0_TcruziCLBrenerEsmeraldo-like.gff')
 
-#def compute_utf
+    # 3'UTR motifs from supplementary table 2 in Najafabadi et al. (2013)
+    motifs = load_motifs('najafabadi_table_s1_2013.csv')
+
+    # Load genome sequence
+    chromosomes = load_fasta(genome)
+
+    # Prase annotations and return 3'UTR coordinates
+    genes = get_utr_coords(annotations, utr_length=500)
+
+    # For each gene, return a list of the motifs that are present in its 3'UTR
+    for gene in genes[0:2]:
+        utr_seq = get_3utr_seq(chromosomes, gene)
+
+        # check each motif to see if it is present
+        utr3_motifs = []
+
+        for motif in motifs:
+            matches = SeqUtils.nt_search(utr_seq, motif)[1:]
+
+            # save matched motif
+            if len(matches) > 0:
+                utr3_motifs.append(motif)
+
+        # output results
+        print("%s: %s" % (gene['id'], ", ".join(utr3_motifs)))
 
 def load_motifs(motif_file):
     """
@@ -52,17 +83,18 @@ def load_motifs(motif_file):
     with open(motif_file, 'r') as fp:
         reader = csv.DictReader(fp)
 
-        motifs = [row['Sequence'] for row in reader]
+        # Convert sequence to DNA and add to list
+        motifs = [row['Sequence'].replace('U', 'T') for row in reader]
 
     return motifs
 
-def get_utr_coords(input_gff, utr_length=500):
+def get_utr_coords(filepath, utr_length=500):
     """
     Parses a GFF file and returns the estimated 3'UTR coordinates for each gene
     in the file.
     """
     # parse GFF file and get a list of the results
-    gene_rows = load_gff(input_gff)
+    gene_rows = load_gff(filepath)
 
     # For each gene from the above list, create a dictionary containing
     # the information needed to find the gene UTRs
@@ -100,7 +132,7 @@ def get_utr_coords(input_gff, utr_length=500):
 
     return genes
 
-def load_gff(input_gff):
+def load_gff(filepath):
     """
     Loads a GFF file and returns a csv.DictReader instance corresponding
     to the gene rows in the file.
@@ -110,7 +142,7 @@ def load_gff(input_gff):
                 'phase', 'attributes']
 
     # get lines from file
-    with open(input_gff, 'r') as fp:
+    with open(filepath, 'r') as fp:
         lines = fp.readlines()
 
     # filter out non-gene entries
@@ -126,14 +158,30 @@ def load_gff(input_gff):
 
     return csv.DictReader(str_buffer, fieldnames=colnames, delimiter='\t')
 
-def load_fasta(input_fasta):
+def get_3utr_seq(chromosomes, gene):
+    """
+    Returns the sequence for the 3'UTR of a given gene
+    """
+    # get chromosome SeqRecord
+    chromosome = chromosomes[gene['chromosome']]
+
+    # get Seq for 3'UTR range
+    seq = chromosome[gene['utr3_start'] - 1:gene['utr3_end']].seq
+
+    # positive strand
+    if gene['strand'] == '+':
+        return str(seq)
+    else:
+        return str(seq.reverse_complement())
+
+def load_fasta(filepath):
     """
     Loads a genome FASTA file and returns dictionary of chromosome sequences
     indexed by chromosome number.
     """
     chromosomes = {}
 
-    seqs = SeqIO.parse(input_fasta, format='fasta', 
+    seqs = SeqIO.parse(filepath, format='fasta', 
                        alphabet=IUPAC.ambiguous_dna)
 
     # iterate over seqs and add to chromosome dictionary
@@ -179,13 +227,6 @@ def load_file(uri):
     else:
         raise Exception("Invalid URI specified: %s" % uri)
 
-"""
-MAIN
-"""
-# Input files (T. cruzi CL Brener Esmeraldo-like)
-input_fasta = load_file('http://tritrypdb.org/common/downloads/release-6.0/TcruziCLBrenerEsmeraldo-like/fasta/data/TriTrypDB-6.0_TcruziCLBrenerEsmeraldo-like_Genome.fasta')
-input_gff = load_file('http://tritrypdb.org/common/downloads/release-6.0/TcruziCLBrenerEsmeraldo-like/gff/data/TriTrypDB-6.0_TcruziCLBrenerEsmeraldo-like.gff')
-
-# 3'UTR motifs from supplementary table 2 in Najafabadi et al. (2013)
-input_motifs = load_motifs('najafabadi_table_s1_2013.csv')
+if __name__ == "__main__":
+    sys.exit(main())
 
