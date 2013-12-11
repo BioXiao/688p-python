@@ -221,4 +221,17 @@ available online.
 
 * [Git: Getting Started - About Version Control](http://git-scm.com/book/en/Getting-Started-About-Version-Control)
 * [What Is Git & Why You Should Use Version Control If You’re a Developer](http://www.makeuseof.com/tag/git-version-control-youre-developer/)
+* [Github for beginners](http://readwrite.com/2013/09/30/understanding-github-a-journey-for-beginners-part-1#awesm=~opJ2C5U2izU4OD)
+
+
+Software Testing
+----------------
+
+
+Reproducible Research
+---------------------
+
+Data Provenance
+---------------
+
 
