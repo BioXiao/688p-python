@@ -129,7 +129,7 @@ describe the basic flow of a function or script.
 
 Examples:
 
-```
+```python
 # filter out non-gene entries
 gene_rows = [ x for x in lines if 'gene\t' in x]
 
@@ -151,4 +151,74 @@ To use it, you simply format your file and code comments in a specific manner.
 Sphinx can then scan through all of your files, extract the comments, and
 parse them into elegant-looking HTML or PDF documentation.
 
+Coding Standards
+----------------
+
+A coding standard is a set of rules or guidelines to follow when writing
+code and documentation for a project which, when followed, help to ensure a
+certain level of code quality and consistency.
+
+In addition to setting some basic conventions to ensure consistency within and
+across files, many of the guidelines are chosen for specific reasons such
+as readability, and ease of debugging.
+
+Whenever you are starting to work with a new programming language, it is a good
+idea read a bit about coding standard and best practices for that language.
+Each language will have its own conventions and you can learn a lot about a
+language from reading about these. Also, the earlier you adopt a standard, the
+easier it will be to develop those habits early on.
+
+The Python community largely follows a coding standard referred to as 
+[PEP8](http://www.python.org/dev/peps/pep-0008/) and there are [numerous 
+tools](&oq=pep8+checker&aqs=chrome..69i57j0l3.2103j0j1&sourceid=chrome&ie=UTF-8)
+to help check if your code is following these conventions.
+
+In fact, Spyder has [an option to check for PEP8 compliance built-in](http://www.southampton.ac.uk/~fangohr/blog/spyder-the-python-ide.html#warn-if-pep8-coding-guidelines-are-violated):
+enable it!
+
+Version Control
+---------------
+
+Version control software ("VCS") are tools which help to track changes made
+to a collection of files over time, and to assist in the collaborative editing
+of these files.
+
+There are a number of tools that do this, but the main ones in use now are:
+
+* git
+* subversion (svn)
+* cvs
+* mercurial
+* bazaar
+
+Some of the reasons for using a VCS are:
+
+### File history
+
+ProjectKeeping track of the history of changes made to each file in a project. 
+This way if something breaks, an earlier version of the file can be restored
+and used to track down the problematic changes.
+
+### Collaboration
+
+VCS help to provide mechanisms for multiple developers to work on different
+parts of a codebase and merge those changes together.
+
+### Backup
+
+VCS tools generally provide a mechanism to store a codebase at some central
+location (svn and cvs), or to keep multiple copies of the entire codebase
+at different locations (distributed VCS).
+
+Many websites (e.g. Github) provide free hosting for open-source code stored
+in a VCS repository.
+
+This way if your laptop dies, or you accidentally delete an important directory
+you will still have a backup of the code and all of the changes made to it
+available online.
+
+### More info:
+
+* [Git: Getting Started - About Version Control](http://git-scm.com/book/en/Getting-Started-About-Version-Control)
+* [What Is Git & Why You Should Use Version Control If You’re a Developer](http://www.makeuseof.com/tag/git-version-control-youre-developer/)
 
