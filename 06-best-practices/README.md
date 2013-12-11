@@ -18,6 +18,7 @@ Topic covered:
 * software testing
 * reproducible research
 * data provenance
+* debugging
 
 Documentation
 -------------
@@ -223,15 +224,34 @@ available online.
 * [What Is Git & Why You Should Use Version Control If You’re a Developer](http://www.makeuseof.com/tag/git-version-control-youre-developer/)
 * [Github for beginners](http://readwrite.com/2013/09/30/understanding-github-a-journey-for-beginners-part-1#awesm=~opJ2C5U2izU4OD)
 
-
 Software Testing
 ----------------
-
+@TODO
 
 Reproducible Research
 ---------------------
+@TODO
+* https://github.com/umd-byob/presentations/tree/master/2013/0903-knitr_reproducible_research
 
 Data Provenance
 ---------------
+@TODO
 
+Debugging
+---------
+
+Although adopting the above practices will almost certainly save you some
+heartache in the future, you will still encounter issues during coding that
+you need to resolve. Although learning how to properly debug software may
+initially seem daunting and takes some time to get used to, becoming 
+comfortable this process will make your life much easier and save you a lot
+of time in the long run.
+
+Here are a few references that you may find useful when you encounter problems
+during Python coding:
+
+* [Python Development with IPython: Debugging Python using the IPython Shell](http://www.youtube.com/watch?v=zm8tX0e2kyI)
+* [IPython reference: using IPython for interactive work](http://ipython.org/ipython-doc/rel-1.1.0/interactive/reference.html)
+* [pdb — The Python Debugger](http://docs.python.org/2/library/pdb.html)
+* [Stack Overflow - Python debugging tips](http://stackoverflow.com/questions/1623039/python-debugging-tips)
 
