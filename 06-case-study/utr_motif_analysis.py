@@ -50,7 +50,7 @@ Basic process to follow when designing a script such as this one:
 Homework
 --------
 For homework, your goal will be to take this scripts, and improve it by
-implementing one or more of the following changes:
+implementing two or more of the following changes:
 
 1. Dynamic input
 
@@ -97,6 +97,12 @@ locations by providing an addition file with entries of the following format:
 Example:
 
     Tc00.1047053398345.10, 518916, 519456
+
+Homework submission
+-------------------
+When submitting your homework assignment, indicate which of the above changes
+you attempted to implement. You may attempt as many as you want. Your grade
+will be the combination of your best two scores.
 
 References
 ----------

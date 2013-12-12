@@ -16,9 +16,9 @@ Topic covered:
 * coding standards
 * version control
 * software testing
+* debugging
 * reproducible research
 * data provenance
-* debugging
 
 Documentation
 -------------
@@ -226,16 +226,31 @@ available online.
 
 Software Testing
 ----------------
-@TODO
 
-Reproducible Research
----------------------
-@TODO
-* https://github.com/umd-byob/presentations/tree/master/2013/0903-knitr_reproducible_research
+Thoroughly [testing](http://en.wikipedia.org/wiki/Software_testing) your
+software is one way to ensure find and eliminate bugs and prevents issues
+from creeping into code as it and the software it depends on changes over
+time.
 
-Data Provenance
----------------
-@TODO
+There are many different types of tests for software but the most common kind
+and the easiest to begin using is called [unit
+testing](http://en.wikipedia.org/wiki/Unit_testing). The basic idea for unit
+testing is to write one or more "test" functions for each function you want
+to test where you describe some inputs to the function along with know
+(expected) outputs. A [test framework](https://wiki.python.org/moin/PythonTestingToolsTaxonomy)
+is then used to scan your code for these tests, apply them to your functions, 
+and ensure that the output is as expected. Testing frameworks exist for all
+different programming languages, and Python is no exception. In addition to
+some [builtin](http://docs.python.org/2/library/doctest.html) [methods](http://docs.python.org/2/library/unittest.html) 
+for testing, there are several popular test frameworks including:
+
+* [nose](http://nose.readthedocs.org/en/latest/)
+* [py.test](http://pytest.org/latest/)
+
+For more information on testing Python code, see:
+
+* http://pythontesting.net/start-here/
+* http://docs.python-guide.org/en/latest/writing/tests/
 
 Debugging
 ---------
@@ -254,4 +269,34 @@ during Python coding:
 * [IPython reference: using IPython for interactive work](http://ipython.org/ipython-doc/rel-1.1.0/interactive/reference.html)
 * [pdb — The Python Debugger](http://docs.python.org/2/library/pdb.html)
 * [Stack Overflow - Python debugging tips](http://stackoverflow.com/questions/1623039/python-debugging-tips)
+
+
+Reproducible Research
+---------------------
+
+See: https://github.com/umd-byob/presentations/tree/master/2013/0903-knitr_reproducible_research
+
+
+Data Provenance
+---------------
+
+The basic idea here is to try and include additional metadata with any data
+you create in such a way that future users of that data product will be able
+to determine where the data came from, how the data was produced, and how they
+could recreate the data themselves. This is related to the idea of reproducible
+research above. Often, data files (e.g. images, csv tables, etc.) will be
+passed along from one location to another, occasionally changing in filename or
+contents. If proper provenance information is included in the file, for example
+as a comment at the top of the file, then the receiver of the data should have
+sufficient information to understand the where the data came from and how is
+changed from the time of creation (post-processing steps, etc).
+
+Some information to consider including:
+
+* A brief description of the file contents
+* Dates of creation and modification
+* Contact information
+* How the data was generated, including versions and parameters of any software
+  called
+* Any changes that have been made to the file since its original creation
 
