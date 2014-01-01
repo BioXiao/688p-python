@@ -372,7 +372,7 @@ def load_file(uri):
         handle = urllib2.urlopen(uri)
         contents = handle.read()
 
-        with open(filename) as fp:
+        with open(filename, 'w') as fp:
             fp.write(contents)
         return filename
     # if it's note a URL or a valid filepath, raise and exception
