@@ -33,76 +33,19 @@ demonstrative purposes in this course. A better approach would be to attempt
 to use existing 3'UTR information or make a more sophisticated guess at the
 3'UTR location based on other properties of the surrounding sequence, etc.
 
-Design Strategy
----------------
-Basic process to follow when designing a script such as this one:
+Answers
+-------
+This script contains example implmentations for two of the homework tasks 
+(command-line argument parsing and CSV output.) There are many different ways
+these can be approached, however, so this is by no means the only or the best
+solution.
 
-    1) Define our goals for the script -- what do we want it to do? What
-       should the inputs and outputs be?
-    2) Break up task into modular tasks: e.g. "load genome", "compute 3'UTR
-       coordinates", etc.
-    3) Decide how to store things internally: using lists? dicts? classes? etc.
-    4) Code each part of the process, testing along the way; use the IPython
-       console to inspect the values of each variable and make sure they are
-       as you expect.
-    5) Validate output.
-
-Homework
---------
-For homework, your goal will be to take this scripts, and improve it by
-implementing two or more of the following changes:
-
-1. Dynamic input
-
-Using the argpase module discussed in class, add one or more command-line
-parameters to allow the user to dynamically control how the script is executed.
-Parameters to consider including:
-
-    -g --input-genome
-    -a --input-annotations
-    -u --utr-length
-    -c --chromosome
-
-    OUTPUT_FILE: positional argument; see next section on CSV output
-
-    Example usage:
-
-    python utf_motif_analysis.py -g input.fasta -a input.gff -u 650 output.csv
-
-2. CSV output
-
-Currently, the script prints the results to the screen in the form:
-
-    gene_id: motif1, motif2, etc...
-
-This is not a very useful format, however, for further analysis. A better
-approach would be to store the output as a CSV file. Using the csv.writer class
-(http://docs.python.org/2/library/csv.html), write the results of this script
-as a CSV file where the first column is the gene id and each column there
-after contains motif found for that gene. Note that in this format the
-number of columns will vary for each gene.
-
-3. Alternative targets
-
-Extend the script to support scanning alternative portions of the gene for
-the input motifs, for example, the 5'UTR or the CDS.
-
-4. Input UTR location
-
-Instead of approximating the 3'UTR, allow the user to input the exact 3'UTR
-locations by providing an addition file with entries of the following format:
-
-    gene_id,start,end
-
-Example:
-
-    Tc00.1047053398345.10, 518916, 519456
-
-Homework submission
--------------------
-When submitting your homework assignment, indicate which of the above changes
-you attempted to implement. You may attempt as many as you want. Your grade
-will be the combination of your best two scores.
+Example Usage
+-------------
+python utr_motif_analysis_answers.py \
+    -g http://tritrypdb.org/common/downloads/release-6.0/TcruziCLBrenerEsmeraldo-like/fasta/data/TriTrypDB-6.0_TcruziCLBrenerEsmeraldo-like_Genome.fasta \
+    -a http://tritrypdb.org/common/downloads/release-6.0/TcruziCLBrenerEsmeraldo-like/gff/data/TriTrypDB-6.0_TcruziCLBrenerEsmeraldo-like.gff \
+    --utr-length=700 results2.csv
 
 References
 ----------
@@ -117,15 +60,19 @@ import sys
 import csv
 import StringIO
 import urllib2
+import argparse
 from Bio import SeqIO
 from Bio import SeqUtils
 from Bio.Alphabet import IUPAC
 
 def main():
     """Main application body"""
+    # Parse command-line arguments
+    args = parse_args()
+
     # Genome sequence and annotations
-    genome = load_file('http://tritrypdb.org/common/downloads/release-6.0/TcruziCLBrenerEsmeraldo-like/fasta/data/TriTrypDB-6.0_TcruziCLBrenerEsmeraldo-like_Genome.fasta')
-    annotations = load_file('http://tritrypdb.org/common/downloads/release-6.0/TcruziCLBrenerEsmeraldo-like/gff/data/TriTrypDB-6.0_TcruziCLBrenerEsmeraldo-like.gff')
+    genome = load_file(args.input_genome)
+    annotations = load_file(args.input_annotations)
 
     # 3'UTR motifs from supplementary table 2 in Najafabadi et al. (2013)
     motifs = load_motifs('najafabadi_table_s1_2013.csv')
@@ -134,11 +81,18 @@ def main():
     chromosomes = load_fasta(genome)
 
     # Parse annotations and return 3'UTR coordinates
-    genes = get_utr_coords(annotations, utr_length=500)
+    genes = get_utr_coords(annotations, utr_length=args.utr_length)
+
+    # Create a list to store output rows
+    output = []
 
     # For each gene, return a list of the motifs that are present in its 3'UTR
-    for gene in genes:
+    num_genes = len(genes)
+
+    for i, gene in enumerate(genes):
         utr_seq = get_3utr_seq(chromosomes, gene)
+
+        print('Processing gene %d/%d' % (i + 1, num_genes))
 
         # check each motif to see if it is present
         utr3_motifs = []
@@ -150,8 +104,26 @@ def main():
             if len(matches) > 0:
                 utr3_motifs.append(motif)
 
-        # output results
-        print("%s: %s" % (gene['id'], ", ".join(utr3_motifs)))
+        output.append([gene['id']] + utr3_motifs)
+
+    # output results
+    with open(args.output, 'w') as output_file:
+        writer = csv.writer(output_file)
+        writer.writerows(output)
+
+def parse_args():
+    """Parses command-line arguments and returns a Namespace instance
+    containing the user arguments."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-g', '--input-genome', required=True,
+                        help='Input FASTA file to use')
+    parser.add_argument('-a', '--input-annotations', required=True,
+                        help='Input GFF annotation file to use')
+    parser.add_argument('-u', '--utr-length', type=int, default=500,
+                        help='Estimated size of the UTR (default: 500)')
+    parser.add_argument('output', default='output.csv',
+                        help='Filepath to write results to.')
+    return parser.parse_args()
 
 def get_utr_coords(filepath, utr_length=500):
     """
